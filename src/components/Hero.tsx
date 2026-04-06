@@ -3,7 +3,11 @@ import { motion } from 'motion/react';
 import { DR_INFO } from '../constants';
 import { Shield, Award, MapPin, CheckCircle2 } from 'lucide-react';
 
-export default function Hero() {
+interface HeroProps {
+  onBookClick: () => void;
+}
+
+export default function Hero({ onBookClick }: HeroProps) {
   return (
     <section id="home" className="relative min-h-screen flex items-center pt-20 overflow-hidden">
       {/* Background with overlay */}
@@ -38,7 +42,10 @@ export default function Hero() {
           </p>
 
           <div className="flex flex-wrap gap-4 mb-10">
-            <button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-full font-bold text-lg shadow-xl shadow-blue-600/20 transition-all hover:scale-105 active:scale-95">
+            <button 
+              onClick={onBookClick}
+              className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-full font-bold text-lg shadow-xl shadow-blue-600/20 transition-all hover:scale-105 active:scale-95"
+            >
               Book Appointment
             </button>
             <a 
@@ -48,6 +55,7 @@ export default function Hero() {
               AI Symptom Checker
             </a>
           </div>
+
 
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-6">
             <div className="flex items-center gap-3 text-white/80">

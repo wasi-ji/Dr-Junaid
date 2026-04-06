@@ -4,8 +4,13 @@ import { MessageSquare, X, Send, Loader2, User, Bot } from 'lucide-react';
 import Markdown from 'react-markdown';
 import { getGeminiResponse, RECEPTIONIST_SYSTEM } from '../lib/gemini';
 import { cn } from '../lib/utils';
+import { DR_INFO } from '../constants';
 
-export default function Chatbot() {
+interface ChatbotProps {
+  onBookClick: () => void;
+}
+
+export default function Chatbot({ onBookClick }: ChatbotProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState('');
   const [messages, setMessages] = useState<{ role: 'user' | 'ai', content: string }[]>([
@@ -104,6 +109,30 @@ export default function Chatbot() {
                   </div>
                 </div>
               ))}
+              
+              {/* Quick Actions */}
+              {!isLoading && messages.length > 0 && (
+                <div className="flex flex-wrap gap-2 pt-2">
+                  <button 
+                    onClick={() => {
+                      onBookClick();
+                      setIsOpen(false);
+                    }}
+                    className="text-xs bg-blue-50 text-blue-600 border border-blue-100 px-3 py-1.5 rounded-full font-bold hover:bg-blue-100 transition-all"
+                  >
+                    📅 Book Appointment
+                  </button>
+                  <a 
+                    href={`https://wa.me/${DR_INFO.whatsapp}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xs bg-green-50 text-green-600 border border-green-100 px-3 py-1.5 rounded-full font-bold hover:bg-green-100 transition-all"
+                  >
+                    💬 WhatsApp Dr. Junaid
+                  </a>
+                </div>
+              )}
+
               {isLoading && (
                 <div className="flex gap-2 max-w-[85%]">
                   <div className="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center">

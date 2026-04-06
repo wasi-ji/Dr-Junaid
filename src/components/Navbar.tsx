@@ -3,7 +3,11 @@ import { Menu, X, Phone, Calendar, MessageSquare } from 'lucide-react';
 import { DR_INFO } from '../constants';
 import { cn } from '../lib/utils';
 
-export default function Navbar() {
+interface NavbarProps {
+  onBookClick: () => void;
+}
+
+export default function Navbar({ onBookClick }: NavbarProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -55,16 +59,28 @@ export default function Navbar() {
               {link.name}
             </a>
           ))}
-          <a
-            href={`https://wa.me/${DR_INFO.whatsapp}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="bg-green-500 hover:bg-green-600 text-white px-5 py-2 rounded-full text-sm font-bold flex items-center gap-2 transition-transform hover:scale-105 shadow-lg"
-          >
-            <MessageSquare size={16} />
-            WhatsApp
-          </a>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={onBookClick}
+              className={cn(
+                "px-5 py-2 rounded-full text-sm font-bold transition-all hover:scale-105",
+                isScrolled ? "bg-blue-600 text-white shadow-lg shadow-blue-600/20" : "bg-white/10 text-white backdrop-blur-md border border-white/20 hover:bg-white/20"
+              )}
+            >
+              Book Now
+            </button>
+            <a
+              href={`https://wa.me/${DR_INFO.whatsapp}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-green-500 hover:bg-green-600 text-white px-5 py-2 rounded-full text-sm font-bold flex items-center gap-2 transition-transform hover:scale-105 shadow-lg"
+            >
+              <MessageSquare size={16} />
+              WhatsApp
+            </a>
+          </div>
         </div>
+
 
         {/* Mobile Toggle */}
         <button 
@@ -88,6 +104,16 @@ export default function Navbar() {
               {link.name}
             </a>
           ))}
+          <button
+            onClick={() => {
+              onBookClick();
+              setIsMobileMenuOpen(false);
+            }}
+            className="bg-blue-600 text-white p-4 rounded-xl font-bold flex items-center justify-center gap-2"
+          >
+            <Calendar size={20} />
+            Book Appointment
+          </button>
           <a
             href={`https://wa.me/${DR_INFO.whatsapp}`}
             className="bg-green-500 text-white p-4 rounded-xl font-bold flex items-center justify-center gap-2"
@@ -97,6 +123,7 @@ export default function Navbar() {
           </a>
         </div>
       )}
+
     </nav>
   );
 }
